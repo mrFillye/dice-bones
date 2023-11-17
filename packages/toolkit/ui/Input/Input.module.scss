@@ -1,0 +1,46 @@
+@use '../styles/colors.scss';
+@use '../styles/common.scss';
+
+input.empty {
+  @extend %kit-family;
+  @include common.reset-input();
+  color: colors.$real-white;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  flex: 1 1 auto;
+  background: transparent;
+  min-width: 0px;
+  padding: 0;
+  height: auto;
+
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.base {
+  display: flex;
+  padding: 7px 8px 7px 12px;
+  background: #1f2331;
+  box-shadow: inset 0px 1px 0px #292d3e;
+  border-radius: 10px;
+
+  &:focus-within {
+    box-shadow:
+      inset 0px 1px 0px #292d3e,
+      0px 0px 0px 1px #2e3343;
+  }
+
+  &__gap-size {
+    &-small {
+      column-gap: 4px;
+    }
+
+    &-medium {
+      column-gap: 8px;
+    }
+  }
+}

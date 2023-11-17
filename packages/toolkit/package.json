@@ -1,0 +1,44 @@
+{
+  "name": "@sok/toolkit",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@pixi/react": "7.1.0",
+    "@pixi-spine/runtime-4.1": "4.0.3",
+    "classnames": "2.3.2",
+    "pixi-spine": "4.0.4",
+    "xstate": "4.38.0"
+  },
+  "peerDependencies": {
+    "@pixi/sound": "5.x",
+    "immer": ">=10.0",
+    "mobx": "6.x",
+    "react": ">16.5",
+    "react-dom": ">16.5"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "7.22.7",
+    "@babel/preset-typescript": "7.22.5",
+    "@jest/globals": "29.6.1",
+    "@pixi/sound": "5.2.0",
+    "@sok/eslint-config-custom": "workspace:*",
+    "@sok/tsconfig": "workspace:*",
+    "@types/node": "20.4.1",
+    "@types/react": "18.2.15",
+    "eslint": "8.45.0",
+    "immer": "10.0.2",
+    "jest": "29.6.1",
+    "mobx": "6.9.0",
+    "pixi.js": "7.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "ts-node": "10.9.1",
+    "typescript": "5.1.6"
+  }
+}

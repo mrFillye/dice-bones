@@ -1,0 +1,77 @@
+.base {
+  position: relative;
+}
+
+.button {
+  width: 28px;
+  height: 28px;
+  background-image: url('/assets/kit/ui/close_button.webp');
+  background-position: center center;
+  background-size: cover;
+  cursor: pointer;
+  transition:
+    scale 0.1s ease-in,
+    opacity 0.1s ease-in;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  &:active {
+    scale: 0.95;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 26px 0 0 26px;
+}
+
+.item {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(143, 145, 175, 1);
+  padding-right: 22px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.label {
+  &:hover {
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.icon {
+  background: no-repeat center / contain;
+  width: 20px;
+  height: 20px;
+
+  &__clock {
+    background-image: url(./clock.svg);
+  }
+
+  &__rules {
+    background-image: url(./rules.svg);
+  }
+
+  &__sound {
+    background-image: url(./sound.svg);
+  }
+
+  &__music {
+    background-image: url(./music.svg);
+  }
+}

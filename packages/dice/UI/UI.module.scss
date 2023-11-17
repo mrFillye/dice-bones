@@ -1,0 +1,90 @@
+@use './common.scss' as *;
+
+.base {
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+
+  @include breakpoint('md') {
+    position: relative;
+    height: 750px;
+    transform: translateY(80px);
+  }
+}
+
+.controlPanel {
+  position: absolute;
+  display: flex;
+  bottom: 0px;
+  left: 220px;
+
+  @include breakpoint('md') {
+    left: 50px;
+    bottom: 10px;
+    z-index: 3;
+  }
+
+  &__disabled {
+    display: none;
+  }
+}
+
+.liveBets {
+  position: absolute;
+  display: flex;
+  top: 80px;
+  left: 20px;
+
+  @include breakpoint('md') {
+    left: 28px;
+    bottom: 10px;
+  }
+
+  &__visible {
+    display: none;
+  }
+}
+
+.table {
+  color: #fff;
+  position: absolute;
+  width: 376px;
+  height: 200px;
+  background-image: url('/assets/kit/ui/table.webp');
+  background-size: 100% 100%;
+  display: none;
+  transform: translateY(-2px);
+
+  @include breakpoint('md') {
+    display: block;
+    opacity: 0.8;
+    top: 567px;
+
+    &__empty {
+      background: rgb(6, 6, 21);
+    }
+  }
+}
+
+.settings {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.info {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
+.balance {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+}

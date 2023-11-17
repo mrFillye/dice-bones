@@ -1,0 +1,81 @@
+@use '../styles/colors.scss';
+@use '../styles/common.scss';
+
+.base {
+  position: relative;
+}
+
+.button {
+  @extend %kit-family;
+  @include common.reset-button();
+
+  cursor: pointer;
+  padding: 12px 8px 12px 12px;
+  background: #1f2331;
+  box-shadow: inset 0px 1px 0px #292d3e;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background: #2e3343;
+  }
+
+  &:disabled {
+    background: #1d202c;
+    color: #717994;
+    cursor: default;
+  }
+}
+
+.icon {
+  margin-left: 12px;
+  transition: transform 0.2s ease-in-out;
+
+  .button__opened & {
+    transform: rotate(180deg);
+  }
+}
+
+.options {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, 0%);
+  padding: 4px;
+  background: #1f2331;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  margin-top: 6px;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+
+  &__opened {
+    display: flex;
+  }
+}
+
+.option {
+  @extend %kit-family;
+  @include common.reset-button();
+
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  color: #ffffff;
+  transition: background 0.2s ease-in-out;
+  text-align: left;
+
+  &__active,
+  &:focus,
+  &:hover {
+    background: #292d3e;
+  }
+}

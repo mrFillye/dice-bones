@@ -1,0 +1,60 @@
+@use '../../../../common.scss' as *;
+
+.base {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  border-bottom: 1px solid #ba9b79;
+  color: black;
+  font-weight: 700;
+  font-size: 14px;
+
+  @include breakpoint('md') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.dateAndTime {
+  width: 110px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  align-items: center;
+  margin-top: 7px;
+
+  @include breakpoint('md') {
+    width: 60px;
+  }
+}
+
+.bet {
+  display: flex;
+  align-items: center;
+  position: relative;
+  transform: translateX(-10px);
+
+  &__clear {
+    transform: translateX(0);
+  }
+
+  @include breakpoint('md') {
+    width: 60px;
+    transform: translateX(0);
+  }
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  position: relative;
+  transform: translateX(-6px);
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  background: url(./coin.svg) no-repeat;
+  background-size: 100% 100%;
+  margin-left: -10px;
+}

@@ -1,0 +1,38 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  background: url(./arrow.svg) no-repeat;
+  background-size: 100% 100%;
+
+  &__right {
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.05;
+  }
+
+  &:active {
+    scale: 0.9;
+  }
+
+  &__disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.text {
+  color: black;
+  font-size: 14px;
+  font-weight: 700;
+}

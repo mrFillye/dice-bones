@@ -1,0 +1,56 @@
+@use '../../common.scss' as *;
+
+.base {
+  padding: 22px 30px;
+  border-radius: 10px;
+  font-size: 28px;
+  font-style: italic;
+  text-align: center;
+  border: none;
+  outline: none;
+  width: 100%;
+  width: 200px;
+  height: 70px;
+  background: url('/assets/kit/ui/input.webp') no-repeat center/contain;
+  background-position: center center;
+  filter: drop-shadow(8px 8px 6px rgba(70, 15, 10, 1));
+
+  @include breakpoint('md') {
+    padding: 0px 46px 2px;
+    width: 360px;
+    background-image: url('/assets/kit/ui/mobile/input.webp');
+    transform: translate(-40px, 14px);
+  }
+
+  &::-webkit-input-placeholder {
+    color: gray;
+    opacity: 0.8;
+    font-size: 28px;
+  }
+  &::-moz-placeholder {
+    color: gray;
+    opacity: 0.8;
+    font-size: 28px;
+  }
+  &:-ms-input-placeholder {
+    color: gray;
+    opacity: 0.8;
+    font-size: 28px;
+  }
+  &:-moz-placeholder {
+    color: gray;
+    opacity: 0.8;
+    font-size: 28px;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+}

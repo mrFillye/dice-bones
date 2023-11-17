@@ -1,0 +1,16 @@
+.button {
+  width: 56px;
+  height: 56px;
+  background-image: url('/assets/kit/ui/info.png');
+  transition:
+    scale 0.1s ease-in,
+    opacity 0.1s ease-in;
+
+  &:active {
+    scale: 0.95;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

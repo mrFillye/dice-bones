@@ -1,0 +1,46 @@
+{
+  "name": "@sok/preview-dice-online",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@sok/dice": "workspace:*",
+    "@sok/toolkit": "workspace:*",
+    "@sok/ui": "workspace:*",
+    "@sok/game-common": "workspace:*",
+    "@tanstack/react-query": "4.33.0",
+    "@types/react": "18.2.21",
+    "autoprefixer": "10.4.15",
+    "classnames": "2.3.2",
+    "effect": "2.0.0-next.29",
+    "flowbite": "1.8.1",
+    "flowbite-react": "0.5.0",
+    "flowbite-typography": "1.0.3",
+    "leva": "0.9.35",
+    "mobx": "6.9.0",
+    "mobx-react-lite": "4.0.4",
+    "mobx-utils": "6.0.8",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "4.10.1",
+    "sass": "1.66.1",
+    "socket.io": "4.7.2",
+    "socket.io-client": "4.7.2",
+    "tailwindcss": "3.3.3",
+    "ts-pattern": "5.0.5",
+    "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "@sok/eslint-config-custom": "workspace:*",
+    "@sok/tsconfig": "workspace:*",
+    "@types/node": "20.5.1",
+    "@types/react-dom": "18.2.7",
+    "typescript": "5.1.6"
+  }
+}

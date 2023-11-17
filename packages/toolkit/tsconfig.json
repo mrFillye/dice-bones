@@ -1,0 +1,9 @@
+{
+  "extends": "@sok/tsconfig/react-library.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"]
+  },
+  "include": [".", "global.d.ts"],
+  "exclude": ["dist", "build", "node_modules"]
+}

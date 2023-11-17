@@ -1,0 +1,27 @@
+.base {
+  width: 150px;
+  height: 24px;
+  background: linear-gradient(90deg, #a83b26 28.99%, #802c1c 100%),
+    linear-gradient(90deg, #b0432f 24.31%, #9a4535 100%);
+  border: 2px solid #b0432f;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 16px;
+  justify-content: flex-end;
+  border-radius: 100px;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.icon {
+  position: absolute;
+  left: 0;
+  transform: translateX(-20px);
+  width: 64px;
+  height: 64px;
+  background: url('/assets/kit/ui/coin.png') no-repeat center/cover;
+}

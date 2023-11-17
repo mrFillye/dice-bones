@@ -1,0 +1,41 @@
+@use './common.scss' as *;
+
+.base {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  @include breakpoint('md') {
+    display: block;
+    height: 100%;
+    width: 375px;
+  }
+}
+
+.frame {
+  overflow: hidden;
+  border-radius: 10px;
+
+  @include breakpoint('md') {
+    position: absolute;
+    width: 100%;
+    top: 80px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+}
+
+.canvasContainer {
+  position: relative;
+
+  @include breakpoint('md') {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

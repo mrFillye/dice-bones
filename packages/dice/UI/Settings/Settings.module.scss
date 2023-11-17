@@ -1,0 +1,39 @@
+.base {
+  position: relative;
+  z-index: 200;
+}
+
+.button {
+  width: 54px;
+  height: 54px;
+  background-image: url('/assets/kit/ui/settings.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  transition:
+    scale 0.1s ease-in,
+    opacity 0.1s ease-in;
+
+  &:active {
+    scale: 0.95;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.settingPanel {
+  width: 180px;
+  height: 160px;
+  background: url('/assets/kit/ui/settings_frame.webp') no-repeat center/contain;
+  background-position: center center;
+  position: absolute;
+  left: 100px;
+  top: -7px;
+  transition: transform 300ms ease-in-out;
+
+  &__opened {
+    transform: translateX(-210px);
+  }
+}

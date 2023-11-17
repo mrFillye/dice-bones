@@ -1,0 +1,13 @@
+.base {
+  padding: 6px;
+  background: #1f2331;
+  border-radius: 12px;
+  display: flex;
+  align-items: stretch;
+  justify-self: stretch;
+}
+
+.tabButton {
+  flex: 1 1 auto;
+  text-align: center;
+}

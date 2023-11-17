@@ -1,0 +1,16 @@
+{
+  "name": "@sok/game-common",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "build": "tsc --build --force tsconfig.json"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "@sok/tsconfig": "workspace:*",
+    "typescript": "5.1.6"
+  }
+}

@@ -1,0 +1,12 @@
+.base {
+  width: 170px;
+  height: 70px;
+  background: url('/assets/kit/ui/play_default.png') no-repeat center/contain;
+  background-position: center center;
+  outline: none;
+
+  &:active {
+    outline: none;
+    border: none;
+  }
+}

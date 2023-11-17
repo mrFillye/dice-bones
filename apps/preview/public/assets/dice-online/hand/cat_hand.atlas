@@ -1,0 +1,5 @@
+cat_hand.png
+size:256,256
+filter:Linear,Linear
+r_hand_pose_2
+bounds:0,0,164,256

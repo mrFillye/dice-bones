@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky install"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "4.2.0",
+    "@turbo/gen": "1.10.12",
+    "@sok/eslint-config-custom": "workspace:*",
+    "eslint": "8.47.0",
+    "husky": "8.0.3",
+    "jira-prepare-commit-msg": "1.7.2",
+    "lint-staged": "14.0.0",
+    "prettier": "3.0.2",
+    "turbo": "1.10.12"
+  },
+  "packageManager": "pnpm@8.6.10",
+  "name": "@sok/dice-online",
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
