@@ -14,7 +14,7 @@ export const Logic = observer(function Logic() {
   const currentState = fsm.model.value.get()
   useEffect(() => {
     if (currentState === 'loaded') {
-      fsm.actions.send({ type: 'WAIT', time: 8000 })
+      fsm.actions.send({ type: 'WAIT', time: 10000 })
     }
     if (currentState === 'wait') {
       return createAnimationFrameLoop((delta) => {
