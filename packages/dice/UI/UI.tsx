@@ -1,6 +1,6 @@
 import cx from 'classnames'
 import { observer } from 'mobx-react-lite'
-import { memo, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { fsm } from '../stores/fsm'
 import Balance from './Balance/Balance'

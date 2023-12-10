@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo } from 'react'
 
 import { fsm } from './stores/fsm'
+import { playerAccountStore } from './stores/player/player-account'
 import { shaking } from './stores/shaking'
 import { waiting } from './stores/waiting'
 
@@ -46,6 +47,7 @@ export function useGameApi() {
 }
 
 export const shakeStores = {
+  player: playerAccountStore,
   shaking: shaking,
   waiting: waiting,
   fsm: fsm,

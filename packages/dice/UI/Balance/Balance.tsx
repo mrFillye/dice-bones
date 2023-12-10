@@ -1,6 +1,6 @@
 import cx from 'classnames'
 
-import { useGameApi } from '../../api'
+import { shakeStores, useGameApi } from '../../api'
 import { stores } from '../../stores'
 import { currentUser } from '../../stores/ui/current-user'
 import { participants } from '../../stores/ui/participants'
@@ -13,6 +13,10 @@ export type Props = {
 export default function Balance({ className }: Props) {
   const api = useGameApi()
 
+  const { player } = shakeStores
+
+  const { balance } = player.computes.player.playerData.get()
+
   return (
     <div className={cx(styles.base, className)}>
       <div className={styles.icon} />
@@ -20,7 +24,7 @@ export default function Balance({ className }: Props) {
         className={styles.value}
         style={{ fontFamily: api.options.fontFamily?.additional }}
       >
-        {Number(5924).toFixed(2)}
+        {balance && Number(balance).toFixed(2)}
       </div>
     </div>
   )
