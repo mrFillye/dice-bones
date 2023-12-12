@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
 
+import { shakeStores } from '../../api'
 import { fsm } from '../../stores/fsm'
 import { currentUser } from '../../stores/ui/current-user'
 import { form } from '../../stores/ui/form'
@@ -24,6 +25,10 @@ export const ControlPanel = observer(function ControlPanel({
   const uiContext = useUIContext()
   const user = currentUser.model.user.get()
   const currentState = fsm.model.value.get()
+
+  const { player } = shakeStores
+
+  const { hash } = shakeStores.player.computes.player.playerData.get()
 
   const handleBet = (bet: Half) => {
     setCurrentBet(bet)
@@ -49,6 +54,8 @@ export const ControlPanel = observer(function ControlPanel({
       setCurrentBet(undefined)
     }
   }, [currentState])
+
+  console.log('currentBet ===>', currentBet)
 
   return (
     <div className={cx(styles.base, className)}>
