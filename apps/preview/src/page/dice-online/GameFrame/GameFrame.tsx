@@ -24,12 +24,18 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
+const URL = 'http://localhost:3003/game'
+
 export const GameFrame = observer(function GameFrame() {
   useDebugControls()
 
-  const { socket } = useSocket()
+  const { socket, instantiate } = useSocket()
 
   const currentUser = stores.ui.currentUser.model.user.get()
+
+  useEffect(() => {
+    instantiate(URL, '')
+  }, [])
 
   useEffect(() => {
     if (!socket) {
