@@ -41,6 +41,7 @@ export const playGame = async ({ id, hash }: CheckPoint) => {
 export const checkPoint = async ({ id, hash }: CheckPoint) => {
   try {
     const res = await instance.post(`play-game/play?user_id=${id}&hash=${hash}`)
+    console.log(res.data)
 
     return res?.data
   } catch (error) {
@@ -71,9 +72,7 @@ export const getAccounts = async () => {
 
 export const getResult = async (userId: string, hash: string) => {
   try {
-    const res = await instance.get(
-      `play-game/result?user_id=${userId}&hash=${hash}`,
-    )
+    const res = await instance.get(`/check?user_id=${userId}&hash=${hash}`)
 
     return res?.data
   } catch (error) {

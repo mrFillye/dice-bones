@@ -18,6 +18,7 @@ import {
 import { WebsocketService } from '../websocket/websocket.service';
 import { UsersService } from '../users/users.service';
 import { calculateWonAmount, determineDiceResult } from './game.common';
+import { SubscribeMessage } from '@nestjs/websockets';
 
 const GAME_HISTORY_LIMIT = 5;
 
@@ -56,6 +57,8 @@ export class GameService {
 
   public startGame() {
     this.resetCurrentGameParams();
+    console.log('123');
+
     this.startWaiting();
   }
 
@@ -125,9 +128,11 @@ export class GameService {
     });
   }
 
-  @OnEvent(events.startGame)
-  private startPlaying() {
+  // @OnEvent(events.startGame)
+  @SubscribeMessage('playing')
+  startPlaying() {
     this.updateHistory(this.currentGame);
+    console.log(1234);
 
     this.runGameStep({
       gameStepTime: this.playingTimeMs,

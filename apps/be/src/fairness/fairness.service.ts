@@ -19,6 +19,7 @@ export class FairnessService {
       this.createHistory(randomSeed());
     }
     const hash = this.history.pop();
+
     if (!hash) {
       throw new Error('History is empty!');
     }

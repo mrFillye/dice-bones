@@ -1,5 +1,9 @@
 import DiceGame, { UI, stores } from '@sok/dice'
 import { shakeStores } from '@sok/dice/api'
+import { fsm } from '@sok/dice/stores/fsm'
+import { gameStore } from '@sok/dice/stores/ui/game'
+import { participants } from '@sok/dice/stores/ui/participants'
+import { waiting } from '@sok/dice/stores/waiting'
 import {
   CurrentState,
   FairnessResult,
@@ -32,6 +36,19 @@ export const GameFrame = observer(function GameFrame() {
   const { socket, instantiate } = useSocket()
 
   const currentUser = stores.ui.currentUser.model.user.get()
+
+  const reminingTime = waiting.model.remainingTime
+
+  useEffect(() => {
+    if (!currentUser?.id) return
+
+    if (reminingTime === 0) {
+      fsm.actions.send({
+        type: 'SHAKE',
+        time: 0 * 1000,
+      })
+    }
+  }, [reminingTime])
 
   useEffect(() => {
     instantiate(URL, '')

@@ -38,6 +38,15 @@ export class WebsocketGateway
     this.gameService.startGame();
   }
 
+  @SubscribeMessage('/game,["playing"]')
+  async playRound() {
+    try {
+      await this.gameService.startPlaying();
+    } catch ({ message }: any) {
+      this.server.emit('play', { message, type: 'error' });
+    }
+  }
+
   @SubscribeMessage(socketEvents.snapshot.snapshot)
   hello(@ConnectedSocket() client: Socket, @MessageBody() user: UserDto) {
     if (user) {
