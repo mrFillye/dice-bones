@@ -7,6 +7,7 @@ import { shakeStores } from '../../api'
 import { fsm } from '../../stores/fsm'
 import { currentUser } from '../../stores/ui/current-user'
 import { form } from '../../stores/ui/form'
+import { participants } from '../../stores/ui/participants'
 import Button from '../common/Button/Button'
 import { Input } from '../common/Input/Input'
 import { Half, useUIContext } from '../context'
@@ -28,6 +29,9 @@ export const ControlPanel = observer(function ControlPanel({
 
   const { player } = shakeStores
 
+  const { put: setParcipitant } = participants.actions
+  const parcipiant = participants.computes.participant
+
   const { hash } = shakeStores.player.computes.player.playerData.get()
 
   const handleBet = (bet: Half) => {
@@ -47,6 +51,15 @@ export const ControlPanel = observer(function ControlPanel({
         half: currentBet,
       },
     })
+
+    setParcipitant({
+      ...user,
+      bet: {
+        currency: 'USD',
+        value: betAmount,
+        half: currentBet,
+      },
+    })
   }
 
   useEffect(() => {
@@ -54,8 +67,6 @@ export const ControlPanel = observer(function ControlPanel({
       setCurrentBet(undefined)
     }
   }, [currentState])
-
-  console.log('currentBet ===>', currentBet)
 
   return (
     <div className={cx(styles.base, className)}>

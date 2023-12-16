@@ -15,7 +15,7 @@ import { Screen, Props as ScreenProps } from './Screen'
 import { Table } from './Table/Table'
 import { UI } from './UI/UI'
 import { GameApiProvider, shakeStores, useGameApi } from './api'
-import { initGame } from './api/play'
+import { checkPoint, getResult, initGame } from './api/play'
 import { stores } from './stores'
 import { fsm } from './stores/fsm'
 import { PLAYER_ACCOUNT_STATE } from './stores/player/player-account'
@@ -42,6 +42,8 @@ export const DiceGame = observer(function DiceGame(props: Props) {
   const { player } = shakeStores
 
   const { setUser } = player.action
+
+  const acc = player.computes.player.playerData.get()
 
   const { setUser: setIncomeUser, reset } = currentUser.actions
 

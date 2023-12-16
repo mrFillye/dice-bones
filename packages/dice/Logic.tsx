@@ -5,13 +5,29 @@ import {
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
 
+import { shakeStores } from './api'
 import { config } from './config'
 import { fsm } from './stores/fsm'
 import { shaking } from './stores/shaking'
+import { gameStore } from './stores/ui/game'
 import { waiting } from './stores/waiting'
 
 export const Logic = observer(function Logic() {
   const currentState = fsm.model.value.get()
+
+  const reminingTime = waiting.model.remainingTime
+
+  const result = gameStore.model.game.get()
+
+  // useEffect(() => {
+  //   if (reminingTime === 0) {
+  //     fsm.actions.send({
+  //       type: 'SHAKE',
+  //       time: 0 * 1000,
+  //     })
+  //   }
+  // }, [reminingTime])
+
   useEffect(() => {
     if (currentState === 'loaded') {
       fsm.actions.send({ type: 'WAIT', time: 10000 })

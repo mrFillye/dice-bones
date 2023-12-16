@@ -1,8 +1,6 @@
 import cx from 'classnames'
 
 import { shakeStores, useGameApi } from '../../api'
-import { stores } from '../../stores'
-import { currentUser } from '../../stores/ui/current-user'
 import { participants } from '../../stores/ui/participants'
 import styles from './Balance.module.scss'
 
