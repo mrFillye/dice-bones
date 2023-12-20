@@ -68,6 +68,7 @@ export const DiceGame = observer(function DiceGame(props: Props) {
         state: PLAYER_ACCOUNT_STATE.IDLE,
         hash: account.hash,
         account_id: account.account_id,
+        isParcipiant: false,
       }
 
       setUser(payload)
@@ -91,6 +92,7 @@ export const DiceGame = observer(function DiceGame(props: Props) {
       state: PLAYER_ACCOUNT_STATE.IDLE,
       hash: account.hash,
       account_id: account.account_id,
+      isParcipiant: false,
     }
 
     setUser(payload)
@@ -111,6 +113,7 @@ export const DiceGame = observer(function DiceGame(props: Props) {
     if (!player) return
     fsm.actions.send({ type: 'LOADED' })
   }, [])
+  console.log('data', data)
 
   return (
     <Screen options={props.options}>

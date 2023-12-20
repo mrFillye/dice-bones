@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import { shakeStores } from '../../api'
 import { fsm } from '../../stores/fsm'
+import { PlayerAccount } from '../../stores/player/player-account'
 import { currentUser } from '../../stores/ui/current-user'
 import { form } from '../../stores/ui/form'
 import { participants } from '../../stores/ui/participants'
@@ -32,7 +33,8 @@ export const ControlPanel = observer(function ControlPanel({
   const { put: setParcipitant } = participants.actions
   const parcipiant = participants.computes.participant
 
-  const { hash } = shakeStores.player.computes.player.playerData.get()
+  const playerAcc = shakeStores.player.computes.player.playerData.get()
+  const { setUser } = shakeStores.player.action
 
   const handleBet = (bet: Half) => {
     setCurrentBet(bet)
@@ -60,6 +62,9 @@ export const ControlPanel = observer(function ControlPanel({
         half: currentBet,
       },
     })
+    if (playerAcc) {
+      setUser({ ...(playerAcc as PlayerAccount), isParcipiant: true })
+    }
   }
 
   useEffect(() => {

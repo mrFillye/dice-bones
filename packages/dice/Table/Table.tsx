@@ -29,6 +29,8 @@ export type Props = {
 export const Table = observer(function Table({ type }: Props) {
   const currentState = fsm.model.value.get()
 
+  console.log('type', type)
+
   if (type === 'reset') {
     switch (currentState) {
       case 'end':
