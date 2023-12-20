@@ -1,8 +1,5 @@
 import DiceGame, { UI, stores } from '@sok/dice'
 import { shakeStores } from '@sok/dice/api'
-import { fsm } from '@sok/dice/stores/fsm'
-import { gameStore } from '@sok/dice/stores/ui/game'
-import { participants } from '@sok/dice/stores/ui/participants'
 import { waiting } from '@sok/dice/stores/waiting'
 import {
   CurrentState,
@@ -15,7 +12,7 @@ import { logger } from '@sok/toolkit/helpers/logger'
 import cx from 'classnames'
 import { autorun } from 'mobx'
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSocket } from '../SocketProvider'
 import { useDebugControls } from '../use-debug-controls'
@@ -36,23 +33,49 @@ export const GameFrame = observer(function GameFrame() {
   const { socket, instantiate } = useSocket()
 
   const currentUser = stores.ui.currentUser.model.user.get()
+  const currentState = shakeStores.fsm.model.value.get()
+  const playerAcc = shakeStores.player.computes.player.playerData.get()
+  const { remainingTime } = waiting.model
 
-  const reminingTime = waiting.model.remainingTime
-
-  useEffect(() => {
-    if (!currentUser?.id) return
-
-    if (reminingTime === 0) {
-      fsm.actions.send({
-        type: 'SHAKE',
-        time: 0 * 1000,
-      })
-    }
-  }, [reminingTime])
+  const [result, setResult] = useState<[number, number] | null>(null)
 
   useEffect(() => {
     instantiate(URL, '')
   }, [])
+
+  useEffect(() => {
+    if (!result) return
+    stores.ui.gameStore.actions.setGame({ result: result })
+  }, [result])
+
+  useEffect(() => {
+    if (remainingTime === 0) {
+      console.log(playerAcc.isParcipiant)
+
+      socket?.emit('play', playerAcc.hash)
+    }
+  }, [playerAcc.isParcipiant, remainingTime])
+
+  useEffect(() => {
+    if (currentState === 'transition') {
+      socket?.disconnect()
+    }
+  }, [currentState, socket])
+
+  useEffect(() => {
+    socket?.on(
+      'currentState',
+      ({ state, edge }: { state: string; edge: [number, number] }) => {
+        console.log('edge', edge)
+
+        setResult(edge)
+      },
+    )
+
+    return () => {
+      socket?.off('currentState')
+    }
+  }, [socket])
 
   useEffect(() => {
     if (!socket) {

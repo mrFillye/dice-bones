@@ -13,6 +13,7 @@ export type PlayerAccount = {
   balance?: number
   hash?: string
   account_id?: number
+  isParcipiant?: boolean
 }
 
 type PlayerAccountState = {
@@ -57,6 +58,7 @@ export const playerAccountStore = {
           state: model.playerAccount.get()?.state,
           hash: model.playerAccount.get()?.hash,
           account_id: model.playerAccount.get()?.account_id,
+          isParcipiant: model.playerAccount.get()?.isParcipiant,
         }
       }),
       balance: computed(() => {

@@ -7,28 +7,38 @@ import { useEffect } from 'react'
 
 import { shakeStores } from './api'
 import { config } from './config'
+import { stores } from './stores'
 import { fsm } from './stores/fsm'
+import { PlayerAccount } from './stores/player/player-account'
 import { shaking } from './stores/shaking'
 import { gameStore } from './stores/ui/game'
 import { waiting } from './stores/waiting'
 
 export const Logic = observer(function Logic() {
   const currentState = fsm.model.value.get()
-
-  const reminingTime = waiting.model.remainingTime
-
-  const result = gameStore.model.game.get()
-
-  // useEffect(() => {
-  //   if (reminingTime === 0) {
-  //     fsm.actions.send({
-  //       type: 'SHAKE',
-  //       time: 0 * 1000,
-  //     })
-  //   }
-  // }, [reminingTime])
+  const playerAcc = shakeStores.player.computes.player.playerData.get()
+  const { setUser } = shakeStores.player.action
+  const { remainingTime } = waiting.model
 
   useEffect(() => {
+    if (remainingTime === 0) {
+      fsm.actions.send({
+        type: 'SHAKE',
+        time: 0 * 1000,
+      })
+    }
+  }, [remainingTime])
+
+  useEffect(() => {
+    if (currentState === 'reset') {
+      fsm.actions.send({ type: 'WAIT', time: 10000 })
+      setUser({ ...(playerAcc as PlayerAccount), isParcipiant: false })
+    }
+  }, [currentState])
+
+  useEffect(() => {
+    console.log('currentState', currentState)
+
     if (currentState === 'loaded') {
       fsm.actions.send({ type: 'WAIT', time: 10000 })
     }
