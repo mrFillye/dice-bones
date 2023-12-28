@@ -18,7 +18,7 @@ export const currentUser = {
       model.user.set(undefined)
     }),
     setUser: action((user: User) => {
-      model.user.set(user)
+      return model.user.set(user)
     }),
   },
   computes: {
