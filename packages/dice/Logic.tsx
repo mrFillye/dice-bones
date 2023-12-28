@@ -12,6 +12,7 @@ import { waiting } from './stores/waiting'
 
 export const Logic = observer(function Logic() {
   const currentState = fsm.model.value.get()
+
   useEffect(() => {
     if (currentState === 'loaded') {
       fsm.actions.send({ type: 'WAIT', time: 8000 })
