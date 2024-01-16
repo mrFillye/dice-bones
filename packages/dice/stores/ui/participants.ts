@@ -76,6 +76,7 @@ export const participants = {
     }),
     participantsListWithUser: computedFn((limit?: number, id?: string) => {
       const necessaryUser = getParticipant(id)
+
       const list = []
       if (necessaryUser) {
         list.push(necessaryUser)

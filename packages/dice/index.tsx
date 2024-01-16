@@ -56,6 +56,7 @@ export const DiceGame = observer(function DiceGame(props: Props) {
         id: data.user.id,
         name: data.user.name,
         state: data.user.state,
+        balance: data.user.balance,
         avatar: '',
       })
     }

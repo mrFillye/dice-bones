@@ -5,6 +5,7 @@ export type User = {
   state: 'idle' | 'lost' | 'win'
   name: string
   avatar: string
+  balance: string
 }
 
 const model = {
@@ -18,12 +19,15 @@ export const currentUser = {
       model.user.set(undefined)
     }),
     setUser: action((user: User) => {
-      return model.user.set(user)
+      model.user.set(user)
     }),
   },
   computes: {
     userId: computed(() => {
       return model.user.get()?.id
+    }),
+    balance: computed(() => {
+      return model.user.get()?.balance
     }),
   },
 }

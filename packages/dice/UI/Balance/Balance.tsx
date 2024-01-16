@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { useEffect, useState } from 'react'
 
 import { useGameApi } from '../../api'
 import { stores } from '../../stores'
@@ -12,6 +13,15 @@ export type Props = {
 
 export default function Balance({ className }: Props) {
   const api = useGameApi()
+  const [userBalance, setUserBalance] = useState<number>(0)
+
+  const user = stores.ui.currentUser.model.user.get()
+
+  const part = participants.computes.participant(user?.id)
+
+  useEffect(() => {
+    setUserBalance(Number(user?.balance))
+  }, [user?.balance])
 
   return (
     <div className={cx(styles.base, className)}>
@@ -20,7 +30,7 @@ export default function Balance({ className }: Props) {
         className={styles.value}
         style={{ fontFamily: api.options.fontFamily?.additional }}
       >
-        {Number(5924).toFixed(2)}
+        {Number(userBalance).toFixed(2)}
       </div>
     </div>
   )
