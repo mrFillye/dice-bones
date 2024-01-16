@@ -2,6 +2,7 @@ import cx from 'classnames'
 import { observer } from 'mobx-react-lite'
 import { memo, useMemo, useState } from 'react'
 
+import { stores } from '../stores'
 import { fsm } from '../stores/fsm'
 import Balance from './Balance/Balance'
 import { ControlPanel } from './ControlPanel/ControlPanel'
@@ -24,6 +25,8 @@ export const UI = observer(function UI(props: UIProps) {
   const loaded = currentState !== 'loading'
   const liveBetsVisible = currentState === 'wait' || currentState === 'result'
 
+  const balanceUser = stores.ui.currentUser.computes.balance.get()
+
   const handleModalOpen = (value: ModalId) => {
     setModalId(value)
   }
@@ -36,6 +39,7 @@ export const UI = observer(function UI(props: UIProps) {
     }),
     [props.onBet, modalId],
   )
+
   return (
     <UIProvider value={contextValue}>
       <div className={cx(styles.base, props.className)}>

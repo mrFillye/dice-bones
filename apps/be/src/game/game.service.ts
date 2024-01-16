@@ -61,6 +61,7 @@ export class GameService {
 
   public getCurrentGameSnapshot(): Snapshot {
     const state = this.stateService.getCurrentState();
+
     const participants = Object.values(this.usersService.participants);
 
     const time =

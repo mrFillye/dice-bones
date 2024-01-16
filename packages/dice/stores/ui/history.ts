@@ -9,7 +9,7 @@ const histories = Array.from({ length: 5 }, (_, i) => ({
 }))
 
 const model = {
-  history: observable.box<FairnessResult[]>(histories),
+  history: observable.box<FairnessResult[]>(),
 }
 
 export const history = {

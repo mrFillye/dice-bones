@@ -14,7 +14,7 @@ export type Props = {
 export const LiveBets = observer(function LiveBets({ className }: Props) {
   const currentUserId = currentUser.computes.userId.get()
   const participantList = participants.computes.participantsListWithUser(
-    undefined,
+    5,
     currentUserId,
   )
 

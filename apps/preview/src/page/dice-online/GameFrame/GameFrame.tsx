@@ -11,6 +11,7 @@ import { logger } from '@sok/toolkit/helpers/logger'
 import cx from 'classnames'
 import { autorun } from 'mobx'
 import { observer } from 'mobx-react-lite'
+import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 import { useSocket } from '../SocketProvider'
@@ -24,12 +25,46 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
-export const GameFrame = observer(function GameFrame() {
-  useDebugControls()
+const URL = 'http://localhost:3004/game'
 
-  const { socket } = useSocket()
+export const GameFrame = observer(function GameFrame() {
+  // useDebugControls()
+
+  const { socket, instantiate } = useSocket()
+  const { get } = useSearchParams()
+
+  const { setUser, reset } = stores.ui.currentUser.actions
+
+  const id = get('id')
+  const name = get('name')
+  const balance = get('balance')
+
+  useEffect(() => {
+    if (socket) return
+    instantiate(URL, '')
+  }, [])
+
+  useEffect(() => {
+    setUser({
+      id: String(id),
+      name: String(name),
+      state: 'idle',
+      balance: String(balance),
+      avatar: '',
+    })
+
+    return () => {
+      reset()
+    }
+  }, [id, name, balance])
 
   const currentUser = stores.ui.currentUser.model.user.get()
+
+  useEffect(() => {
+    if (!socket) return
+
+    socket?.emit(socketEvents.snapshot.snapshot, currentUser)
+  }, [socket])
 
   useEffect(() => {
     if (!socket) {
@@ -45,6 +80,8 @@ export const GameFrame = observer(function GameFrame() {
     })
 
     socket.on(socketEvents.state.current, (event: CurrentState) => {
+      console.log('event', event)
+
       switch (event.state) {
         case 'waiting':
           return shakeStores.fsm.actions.send({
@@ -70,12 +107,15 @@ export const GameFrame = observer(function GameFrame() {
     socket.on(
       socketEvents.snapshot.snapshot,
       (snapshot: Snapshot & { time: number }) => {
+        console.log('snapshot', snapshot)
+
         switch (snapshot.state) {
           case 'waiting':
             return shakeStores.fsm.actions.send({
               type: 'WAIT',
               time: snapshot.time,
             })
+            return
           case 'playing':
             stores.ui.gameStore.actions.setGame(snapshot.result)
             if (snapshot.results) {
@@ -83,17 +123,21 @@ export const GameFrame = observer(function GameFrame() {
                 Object.values(snapshot.results),
               )
             }
+
             return shakeStores.fsm.actions.send({
               type: 'SHAKE',
               time: 12000 - snapshot.time,
             })
+
+            logger.debug(
+              socketEvents.snapshot.snapshot,
+              JSON.stringify(snapshot, null, 2),
+            )
+            stores.ui.participants.actions.put(
+              Object.values(snapshot.participants),
+            )
+            stores.ui.history.actions.put(snapshot.history)
         }
-        logger.debug(
-          socketEvents.snapshot.snapshot,
-          JSON.stringify(snapshot, null, 2),
-        )
-        stores.ui.participants.actions.put(Object.values(snapshot.participants))
-        stores.ui.history.actions.put(snapshot.history)
       },
     )
 
@@ -121,13 +165,6 @@ export const GameFrame = observer(function GameFrame() {
       socket.disconnect()
     }
   }, [socket])
-
-  useEffect(() => {
-    if (!socket) {
-      return
-    }
-    socket.emit(socketEvents.snapshot.snapshot, currentUser)
-  }, [socket, currentUser])
 
   useEffect(() => {
     return autorun(() => {
