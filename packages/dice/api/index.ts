@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:3004/dice-game'
+const URL = 'http://185.149.146.191/dice-game'
 
 export const instance = axios.create({
   baseURL: URL,

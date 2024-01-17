@@ -25,7 +25,7 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
-const URL = 'http://localhost:3004/game'
+const URL = 'http://185.149.146.191/game'
 
 export const GameFrame = observer(function GameFrame() {
   // useDebugControls()
@@ -80,8 +80,6 @@ export const GameFrame = observer(function GameFrame() {
     })
 
     socket.on(socketEvents.state.current, (event: CurrentState) => {
-      console.log('event', event)
-
       switch (event.state) {
         case 'waiting':
           return shakeStores.fsm.actions.send({
@@ -107,8 +105,6 @@ export const GameFrame = observer(function GameFrame() {
     socket.on(
       socketEvents.snapshot.snapshot,
       (snapshot: Snapshot & { time: number }) => {
-        console.log('snapshot', snapshot)
-
         switch (snapshot.state) {
           case 'waiting':
             return shakeStores.fsm.actions.send({
