@@ -13,8 +13,8 @@ export function useDebugControls() {
       URL: 'https://dice-online-be-3adac8d6408d.herokuapp.com/',
       Path: '',
       Auth: button(() => {
-        const user = makeFakeUser()
-        stores.ui.currentUser.actions.setUser(user)
+        // const user = makeFakeUser()
+        // stores.ui.currentUser.actions.setUser(user)
       }),
       Connect: button((get) => {
         socketApi.instantiate(get('Server.URL'), get('Server.Path'))
