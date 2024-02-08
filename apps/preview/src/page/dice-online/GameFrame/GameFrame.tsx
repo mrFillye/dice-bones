@@ -25,7 +25,7 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
-const URL = 'http://185.149.146.191/game'
+const URL = 'https://bur.bet/game'
 
 export const GameFrame = observer(function GameFrame() {
   // useDebugControls()
