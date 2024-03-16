@@ -21,6 +21,13 @@ export const currentUser = {
     setUser: action((user: User) => {
       model.user.set(user)
     }),
+    updateBalance: action((newBalance: string) => {
+      const currentUser = model.user.get()
+      if (currentUser) {
+        currentUser.balance = newBalance
+        model.user.set(currentUser)
+      }
+    }),
   },
   computes: {
     userId: computed(() => {
