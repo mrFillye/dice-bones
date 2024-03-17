@@ -9,11 +9,13 @@ export type UserDto = {
 export type GameUser = UserDto & {
   type: 'user'
   socketIds: string[]
+  balance: string
 }
 
 export type PlayingUser = Omit<GameUser, 'type'> & {
   type: 'participant'
   bet: Bet
+  balance: string
 } & PlayerBetResult
 
 export type PlayerBetResult =

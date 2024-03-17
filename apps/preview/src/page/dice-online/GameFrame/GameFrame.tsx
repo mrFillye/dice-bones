@@ -15,7 +15,6 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 import { useSocket } from '../SocketProvider'
-import { useDebugControls } from '../use-debug-controls'
 import styles from './GameFrame.module.scss'
 import { Contract } from './types'
 
@@ -34,7 +33,7 @@ export const GameFrame = observer(function GameFrame() {
   const { socket, instantiate } = useSocket()
   const { get } = useSearchParams()
 
-  const { setUser, reset } = stores.ui.currentUser.actions
+  const { setUser, reset, updateBalance } = stores.ui.currentUser.actions
 
   const id = get('id')
   const name = get('name')
@@ -90,8 +89,15 @@ export const GameFrame = observer(function GameFrame() {
         case 'playing':
           stores.ui.gameStore.actions.setGame(event.result)
           if (event.results) {
+            console.log('event.results')
+            const user = event.results.find((user) => user.id === id)
+            //@ts-ignore
+
+            updateBalance(user.balance)
+
             stores.ui.participants.actions.put(Object.values(event.results))
           }
+
           return shakeStores.fsm.actions.send({
             type: 'SHAKE',
             time: 12000 - event.time,
@@ -112,7 +118,7 @@ export const GameFrame = observer(function GameFrame() {
               type: 'WAIT',
               time: snapshot.time,
             })
-            return
+
           case 'playing':
             stores.ui.gameStore.actions.setGame(snapshot.result)
             if (snapshot.results) {
