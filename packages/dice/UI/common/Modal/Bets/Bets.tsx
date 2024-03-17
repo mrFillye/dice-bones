@@ -1,33 +1,28 @@
-import cx from 'classnames'
-import React, { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 
 import { useGameApi } from '../../../../api'
+import { IParticipant, getParticipantHistory } from '../../../../api/queries'
 import styles from './Bets.module.scss'
 import Pagination from './Pagination/Pagination'
 import Section from './Section/Section'
 
-const mapRange = new Array(34).fill(0).map((item, index) => ({
-  id: `${index}dsdsds`,
-  date: '08.09, 12:30',
-  bet: 300,
-  result: '1-6',
-  win: 150,
-}))
-
-const ELEMENT_PER_PAGE = 5
-
 export default function Bets() {
   const [currentPage, setCurrentPage] = useState(1)
-  const [data, setData] = useState(mapRange)
+
   const api = useGameApi()
 
+  const { data: participant, refetch } = useQuery<{
+    currentPage: number
+    totalPages: number
+    result: IParticipant[]
+  }>({
+    queryKey: ['participant-history'],
+    queryFn: async () => await getParticipantHistory(currentPage),
+  })
+
   useEffect(() => {
-    setData(
-      [...mapRange].slice(
-        (-1 + currentPage) * ELEMENT_PER_PAGE,
-        ELEMENT_PER_PAGE * currentPage,
-      ),
-    )
+    refetch()
   }, [currentPage])
 
   return (
@@ -46,19 +41,21 @@ export default function Bets() {
         )}
         <span className={styles.col}>Win amount</span>
       </div>
-      {data.map((item, index) => {
+      {participant?.result?.map(({ id, ...item }) => {
         return (
-          <div key={item.id}>
-            <Section {...item} />
+          <div key={id}>
+            <Section id={id} {...item} />
           </div>
         )
       })}
-      <Pagination
-        current={currentPage}
-        max={Math.ceil(mapRange.length / ELEMENT_PER_PAGE)}
-        onClick={setCurrentPage}
-        className={styles.pagination}
-      />
+      {participant && (
+        <Pagination
+          current={currentPage}
+          max={participant?.totalPages}
+          onClick={setCurrentPage}
+          className={styles.pagination}
+        />
+      )}
     </div>
   )
 }

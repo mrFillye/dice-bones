@@ -2,6 +2,7 @@ import cx from 'classnames'
 import React from 'react'
 
 import { useGameApi } from '../../../../../api'
+import { IParticipant } from '../../../../../api/queries'
 import styles from './Section.module.scss'
 
 export type Props = {
@@ -11,22 +12,27 @@ export type Props = {
   result: string
 }
 
-export default function Section({ date, bet, result, win }: Props) {
+export default function Section({
+  betValue,
+  half,
+  state,
+  createdAt,
+  wonAmount,
+}: IParticipant) {
   const api = useGameApi()
 
   return (
     <div className={styles.base}>
-      <span className={styles.dateAndTime}>{date}</span>
+      <span className={styles.dateAndTime}>{createdAt}</span>
       <span className={styles.bet}>
         <span className={styles.icon} />
-        {bet}
+        {betValue}
       </span>
       {api.options.adaptiveMode === 'desktop' && (
-        <span className={styles.result}>{result}</span>
+        <span className={styles.result}>{state}</span>
       )}
       <span className={cx(styles.bet, styles.bet__clear)}>
-        <span className={styles.icon} />
-        {win}
+        <span className={styles.icon} /> {wonAmount}
       </span>
     </div>
   )
