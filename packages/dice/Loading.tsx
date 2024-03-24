@@ -103,9 +103,7 @@ export const Loading = memo<Props>(function Loading(props) {
         height={app.screen.height}
         fill={0x07081a}
       />
-      {logoTexture && (
-        <Sprite texture={logoTexture} {...logoSize} anchor={0.5} x={x} y={y} />
-      )}
+
       <Text
         ref={progressRef}
         x={app.screen.width / 2}
