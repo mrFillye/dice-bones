@@ -23,8 +23,6 @@ export default function Balance({ className }: Props) {
     setUserBalance(Number(user?.balance))
   }, [user?.balance])
 
-  console.log('user balance', user?.balance)
-
   return (
     <div className={cx(styles.base, className)}>
       <div className={styles.icon} />

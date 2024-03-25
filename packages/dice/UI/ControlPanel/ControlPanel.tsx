@@ -19,6 +19,7 @@ export const ControlPanel = observer(function ControlPanel({
   className,
 }: Props) {
   const [currentBet, setCurrentBet] = useState<Half>()
+  const [isSubmited, setIsSubmitted] = useState<boolean>(false)
 
   const { betAmount } = form.model.form
   const uiContext = useUIContext()
@@ -42,11 +43,14 @@ export const ControlPanel = observer(function ControlPanel({
         half: currentBet,
       },
     })
+    setIsSubmitted(true)
+    setCurrentBet(undefined)
   }
 
   useEffect(() => {
     if (currentState === 'end') {
       setCurrentBet(undefined)
+      setIsSubmitted(false)
     }
   }, [currentState])
 
@@ -55,6 +59,7 @@ export const ControlPanel = observer(function ControlPanel({
       <Input className={styles.input} type="number" placeholder="5000.00" />
       <div className={styles.wrapper}>
         <Button
+          disabled={isSubmited}
           className={cx(
             styles.minBetButton,
             styles.betButton,
@@ -68,6 +73,7 @@ export const ControlPanel = observer(function ControlPanel({
           </div>
         </Button>
         <Button
+          disabled={isSubmited}
           className={cx(
             styles.maxBetButton,
             styles.betButton,
@@ -83,7 +89,11 @@ export const ControlPanel = observer(function ControlPanel({
           </div>
         </Button>
       </div>
-      <Button className={styles.playButton} onClick={() => handlePlaceBet()}>
+      <Button
+        disabled={!Boolean(currentBet)}
+        className={styles.playButton}
+        onClick={() => handlePlaceBet()}
+      >
         <div className={styles.text}>PLAY</div>
       </Button>
     </div>
