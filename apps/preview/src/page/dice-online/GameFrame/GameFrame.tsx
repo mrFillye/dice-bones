@@ -89,11 +89,13 @@ export const GameFrame = observer(function GameFrame() {
         case 'playing':
           stores.ui.gameStore.actions.setGame(event.result)
           if (event.results) {
-            console.log('event.results')
             const user = event.results.find((user) => user.id === id)
-            //@ts-ignore
 
-            updateBalance(user.balance)
+            //@ts-ignore
+            if (user?.balance) {
+              //@ts-ignore
+              updateBalance(user.balance)
+            }
 
             stores.ui.participants.actions.put(Object.values(event.results))
           }

@@ -15,7 +15,6 @@ export type GameUser = UserDto & {
 export type PlayingUser = Omit<GameUser, 'type'> & {
   type: 'participant'
   bet: Bet
-  balance: string
 } & PlayerBetResult
 
 export type PlayerBetResult =
