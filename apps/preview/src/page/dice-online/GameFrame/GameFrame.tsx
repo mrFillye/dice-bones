@@ -66,6 +66,16 @@ export const GameFrame = observer(function GameFrame() {
   const currentUser = stores.ui.currentUser.model.user.get()
 
   useEffect(() => {
+    if (!currentUser?.balance) return
+
+    const params = new URLSearchParams(searchParams)
+
+    params.set('balance', currentUser?.balance)
+
+    push(`?${params.toString()}`)
+  }, [currentUser?.balance])
+
+  useEffect(() => {
     if (!socket) return
 
     socket?.emit(socketEvents.snapshot.snapshot, currentUser)
@@ -99,13 +109,6 @@ export const GameFrame = observer(function GameFrame() {
             //@ts-ignore
             if (user?.balance) {
               setTimeout(() => {
-                const params = new URLSearchParams(searchParams)
-
-                //@ts-ignore
-                params.set('balance', user.balance)
-
-                push(`?${params.toString()}`)
-
                 //@ts-ignore
                 updateBalance(user.balance)
               }, 10000)
