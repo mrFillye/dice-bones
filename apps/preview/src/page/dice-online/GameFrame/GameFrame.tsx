@@ -11,7 +11,7 @@ import { logger } from '@sok/toolkit/helpers/logger'
 import cx from 'classnames'
 import { autorun } from 'mobx'
 import { observer } from 'mobx-react-lite'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 import { useSocket } from '../SocketProvider'
@@ -31,7 +31,12 @@ export const GameFrame = observer(function GameFrame() {
   // useDebugControls()
 
   const { socket, instantiate } = useSocket()
-  const { get } = useSearchParams()
+
+  const searchParams = useSearchParams()
+
+  const { push } = useRouter()
+
+  const { get } = searchParams
 
   const { setUser, reset, updateBalance } = stores.ui.currentUser.actions
 
@@ -93,8 +98,17 @@ export const GameFrame = observer(function GameFrame() {
 
             //@ts-ignore
             if (user?.balance) {
-              //@ts-ignore
-              updateBalance(user.balance)
+              setTimeout(() => {
+                const params = new URLSearchParams(searchParams)
+
+                //@ts-ignore
+                params.set('balance', user.balance)
+
+                push(`?${params.toString()}`)
+
+                //@ts-ignore
+                updateBalance(user.balance)
+              }, 10000)
             }
 
             stores.ui.participants.actions.put(Object.values(event.results))

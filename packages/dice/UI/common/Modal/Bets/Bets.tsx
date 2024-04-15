@@ -8,7 +8,7 @@ import Pagination from './Pagination/Pagination'
 import Section from './Section/Section'
 
 export default function Bets() {
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const api = useGameApi()
 

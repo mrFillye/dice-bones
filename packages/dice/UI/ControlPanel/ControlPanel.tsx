@@ -31,8 +31,16 @@ export const ControlPanel = observer(function ControlPanel({
   }
 
   const handlePlaceBet = () => {
-    if (!user || !currentBet) {
+    if (!user || !currentBet || betAmount === 0) {
       return logger.warn('PlaceBetButton: something is not defined')
+    }
+
+    if (Number(user?.balance) === 0) {
+      return logger.warn('Values: 0')
+    }
+
+    if (Number(user?.balance) < betAmount) {
+      return logger.warn('Very expensive for you')
     }
 
     uiContext.onBet?.({
@@ -56,7 +64,12 @@ export const ControlPanel = observer(function ControlPanel({
 
   return (
     <div className={cx(styles.base, className)}>
-      <Input className={styles.input} type="number" placeholder="5000.00" />
+      <Input
+        className={styles.input}
+        type="number"
+        min={0}
+        placeholder="5000.00"
+      />
       <div className={styles.wrapper}>
         <Button
           disabled={isSubmited}
