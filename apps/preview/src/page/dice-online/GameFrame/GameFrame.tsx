@@ -24,8 +24,9 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
-const URL = 'wss://bur.bet/game'
-// const URL = 'ws://localhost:3004/game'
+// const URL = 'wss://bur.bet/game'
+
+const URL = 'ws://localhost:3004/game'
 
 export const GameFrame = observer(function GameFrame() {
   // useDebugControls()
@@ -39,6 +40,10 @@ export const GameFrame = observer(function GameFrame() {
   const { get } = searchParams
 
   const { setUser, reset, updateBalance } = stores.ui.currentUser.actions
+
+  const { updateCurrentTimerValue } = stores.waiting.actions
+
+  // const { updateTime } = stores.shaking.actions
 
   const id = get('id')
   const name = get('name')
@@ -70,7 +75,7 @@ export const GameFrame = observer(function GameFrame() {
 
     const params = new URLSearchParams(searchParams)
 
-    params.set('balance', currentUser?.balance)
+    params.set('balance', Number(currentUser?.balance).toFixed(2))
 
     push(`?${params.toString()}`)
   }, [currentUser?.balance])
@@ -80,6 +85,13 @@ export const GameFrame = observer(function GameFrame() {
 
     socket?.emit(socketEvents.snapshot.snapshot, currentUser)
   }, [socket])
+
+  useEffect(() => {
+    if (!socket) return
+    socket.on('current-time', (event) => {
+      console.log('event', event)
+    })
+  }, [])
 
   useEffect(() => {
     if (!socket) {
@@ -133,23 +145,21 @@ export const GameFrame = observer(function GameFrame() {
       (snapshot: Snapshot & { time: number }) => {
         switch (snapshot.state) {
           case 'waiting':
+            updateCurrentTimerValue(snapshot.time)
             return shakeStores.fsm.actions.send({
               type: 'WAIT',
               time: snapshot.time,
             })
 
           case 'playing':
+            // updateTime(snapshot.time)
             stores.ui.gameStore.actions.setGame(snapshot.result)
+
             if (snapshot.results) {
               stores.ui.participants.actions.put(
                 Object.values(snapshot.results),
               )
             }
-
-            return shakeStores.fsm.actions.send({
-              type: 'SHAKE',
-              time: 12000 - snapshot.time,
-            })
 
             logger.debug(
               socketEvents.snapshot.snapshot,
@@ -159,6 +169,11 @@ export const GameFrame = observer(function GameFrame() {
               Object.values(snapshot.participants),
             )
             stores.ui.history.actions.put(snapshot.history)
+
+            return shakeStores.fsm.actions.send({
+              type: 'SHAKE',
+              time: 12000 - snapshot.time,
+            })
         }
       },
     )
