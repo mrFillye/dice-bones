@@ -15,7 +15,9 @@ export const Logic = observer(function Logic() {
 
   useEffect(() => {
     if (currentState === 'loaded') {
-      fsm.actions.send({ type: 'WAIT', time: 10000 })
+      const { currentTimerValue } = waiting.model
+
+      fsm.actions.send({ type: 'WAIT', time: currentTimerValue })
     }
     if (currentState === 'wait') {
       return createAnimationFrameLoop((delta) => {
@@ -33,6 +35,7 @@ export const Logic = observer(function Logic() {
       shaking.actions.updateRunTime(Date.now() - shaking.model.time)
       return createIntervalLoop(() => {
         const { time } = shaking.model
+
         shaking.actions.updateTime(Date.now() - shaking.model.runTime)
         if (time >= config.resetTime) {
           fsm.actions.send({ type: 'RESET', time: time })

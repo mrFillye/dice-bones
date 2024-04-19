@@ -20,6 +20,7 @@ import { IUser } from './interfaces'
 import { stores } from './stores'
 import { fsm } from './stores/fsm'
 import { currentUser } from './stores/ui/current-user'
+import { waiting } from './stores/waiting'
 
 export { GameApiProvider, stores, useGameApi, UI }
 
@@ -38,8 +39,14 @@ export const DiceGame = observer(function DiceGame(props: Props) {
     data,
     isError,
     isLoading: isUserLoading,
-  } = useQuery<{ user: IUser }>(['initUser'], async () =>
-    initUser({ id: String(id), balance: String(balance), name: String(name) }),
+  } = useQuery<{ user: IUser; currentGameTime: number }>(
+    ['initUser'],
+    async () =>
+      initUser({
+        id: String(id),
+        balance: String(balance),
+        name: String(name),
+      }),
   )
 
   const isLoading = fsm.computes.matches('loading')

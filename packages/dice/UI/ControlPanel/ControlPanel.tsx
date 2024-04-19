@@ -62,6 +62,9 @@ export const ControlPanel = observer(function ControlPanel({
     }
   }, [currentState])
 
+  //TO_DO
+  // const isPlayingProcess = currentState !== 'wait'
+
   return (
     <div className={cx(styles.base, className)}>
       <Input

@@ -25,8 +25,6 @@ export const UI = observer(function UI(props: UIProps) {
   const loaded = currentState !== 'loading'
   const liveBetsVisible = currentState === 'wait' || currentState === 'result'
 
-  const balanceUser = stores.ui.currentUser.computes.balance.get()
-
   const handleModalOpen = (value: ModalId) => {
     setModalId(value)
   }
