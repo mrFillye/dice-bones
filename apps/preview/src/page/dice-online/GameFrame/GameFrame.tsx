@@ -24,9 +24,9 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
-// const URL = 'wss://bur.bet/game'
+const URL = 'wss://bur.bet/game'
 
-const URL = 'ws://localhost:3004/game'
+// const URL = 'ws://localhost:3004/game'
 
 export const GameFrame = observer(function GameFrame() {
   // useDebugControls()
