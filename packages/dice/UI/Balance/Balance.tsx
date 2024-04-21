@@ -33,11 +33,10 @@ export default function Balance({ className }: Props) {
   const balanceRef = useRef<HTMLDivElement>(null)
 
   const user = stores.ui.currentUser.model.user.get()
-  // const part = participants.computes.participant(user?.id)
 
   useEffect(() => {
-    setUserBalance(Number(user?.balance))
     animateValue(balanceRef.current, userBalance, Number(user?.balance), 1000)
+    setUserBalance(Number(user?.balance))
   }, [user?.balance])
 
   return (

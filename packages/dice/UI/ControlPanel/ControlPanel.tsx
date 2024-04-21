@@ -25,6 +25,7 @@ export const ControlPanel = observer(function ControlPanel({
   const uiContext = useUIContext()
   const user = currentUser.model.user.get()
   const currentState = fsm.model.value.get()
+  const { updateBalance } = currentUser.actions
 
   const handleBet = (bet: Half) => {
     setCurrentBet(bet)
@@ -51,6 +52,12 @@ export const ControlPanel = observer(function ControlPanel({
         half: currentBet,
       },
     })
+
+    if (user?.balance) {
+      const minusBalance = Number(user.balance) - betAmount
+      updateBalance(String(minusBalance))
+    }
+
     setIsSubmitted(true)
     setCurrentBet(undefined)
   }

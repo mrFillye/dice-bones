@@ -12,7 +12,7 @@ import cx from 'classnames'
 import { autorun } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSocket } from '../SocketProvider'
 import styles from './GameFrame.module.scss'
@@ -24,13 +24,15 @@ const CANVAS_OPTIONS = {
   resolution: 1.5,
 }
 
-const URL = 'wss://bur.bet/game'
+const PROD_URL = 'wss://bur.bet/game'
 
-// const URL = 'ws://localhost:3004/game'
+const DEV_URL = 'ws://localhost:3004/game'
+
+const isLocal = window.location.href.includes('localhost')
+
+const URL = isLocal ? DEV_URL : PROD_URL
 
 export const GameFrame = observer(function GameFrame() {
-  // useDebugControls()
-
   const { socket, instantiate } = useSocket()
 
   const searchParams = useSearchParams()
@@ -42,8 +44,6 @@ export const GameFrame = observer(function GameFrame() {
   const { setUser, reset, updateBalance } = stores.ui.currentUser.actions
 
   const { updateCurrentTimerValue } = stores.waiting.actions
-
-  // const { updateTime } = stores.shaking.actions
 
   const id = get('id')
   const name = get('name')
@@ -70,6 +70,20 @@ export const GameFrame = observer(function GameFrame() {
 
   const currentUser = stores.ui.currentUser.model.user.get()
 
+  const currentState = shakeStores.fsm.model.value.get()
+
+  const [currentBalance, setCurrentBalance] = useState<number>(
+    Number(currentUser?.balance) || 0,
+  )
+
+  useEffect(() => {
+    if (currentState !== 'result') return
+
+    if (currentBalance === 0) return
+
+    updateBalance(String(currentBalance))
+  }, [currentState])
+
   useEffect(() => {
     if (!currentUser?.balance) return
 
@@ -85,13 +99,6 @@ export const GameFrame = observer(function GameFrame() {
 
     socket?.emit(socketEvents.snapshot.snapshot, currentUser)
   }, [socket])
-
-  useEffect(() => {
-    if (!socket) return
-    socket.on('current-time', (event) => {
-      console.log('event', event)
-    })
-  }, [])
 
   useEffect(() => {
     if (!socket) {
@@ -118,12 +125,10 @@ export const GameFrame = observer(function GameFrame() {
           if (event.results) {
             const user = event.results.find((user) => user.id === id)
 
-            //@ts-ignore
+            // @ts-ignore
             if (user?.balance) {
-              setTimeout(() => {
-                //@ts-ignore
-                updateBalance(user.balance)
-              }, 10000)
+              // @ts-ignore
+              setCurrentBalance(user?.balance)
             }
 
             stores.ui.participants.actions.put(Object.values(event.results))
