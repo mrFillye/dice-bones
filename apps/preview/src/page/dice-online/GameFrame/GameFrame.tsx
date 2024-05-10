@@ -31,8 +31,7 @@ const DEV_URL = 'ws://localhost:3004/game'
 
 const isLocal = window.location.href.includes('localhost')
 
-const URL = !isLocal ? DEV_URL : PROD_URL
-
+const URL = isLocal ? DEV_URL : PROD_URL
 export const GameFrame = observer(function GameFrame() {
   const { socket, instantiate } = useSocket()
 
