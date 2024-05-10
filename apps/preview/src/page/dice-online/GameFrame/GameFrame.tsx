@@ -13,6 +13,7 @@ import { autorun } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { AudioPlayer } from '~/components/AudioPlayer'
 
 import { useSocket } from '../SocketProvider'
 import styles from './GameFrame.module.scss'
@@ -30,7 +31,7 @@ const DEV_URL = 'ws://localhost:3004/game'
 
 const isLocal = window.location.href.includes('localhost')
 
-const URL = isLocal ? DEV_URL : PROD_URL
+const URL = !isLocal ? DEV_URL : PROD_URL
 
 export const GameFrame = observer(function GameFrame() {
   const { socket, instantiate } = useSocket()
@@ -237,6 +238,11 @@ export const GameFrame = observer(function GameFrame() {
         onBet={(data) => {
           socket?.emit(socketEvents.users.bet, data)
         }}
+      />
+      <AudioPlayer
+        currentState={currentState}
+        music={shakeStores.settings.model.settings.get()?.music || false}
+        sound={shakeStores.settings.model.settings.get()?.sound || false}
       />
     </div>
   )

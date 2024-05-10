@@ -11,7 +11,19 @@ const nextConfig = {
       'utf-8-validate': 'commonjs utf-8-validate',
       bufferutil: 'commonjs bufferutil',
     })
-
+    config.module.rules.push({
+      test: /\.(ogg|mp3|wav|mpe?g|mov)$/i,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            publicPath: '/_next/static/sounds/', // Путь, куда будут скопированы аудиофайлы
+            outputPath: 'static/sounds/', // Путь для сохранения аудиофайлов в сборке
+          },
+        },
+      ],
+    })
     return config
   },
 }

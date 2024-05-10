@@ -1,8 +1,8 @@
 import cx from 'classnames'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import Button from '../../common/Button/Button'
+import { shakeStores } from '../../../api'
 import Toggle from '../../common/Toggle/Toggle'
 import { useUIContext } from '../../context'
 import styles from './Content.module.scss'
@@ -14,10 +14,23 @@ export type Props = {
 export default function Content({ onClick }: Props) {
   const { onModalOpen } = useUIContext()
 
+  const { updateSettings } = shakeStores.settings.actions
+  const currentSettings = shakeStores.settings.model.settings.get()
+
+  const sound = localStorage.getItem('sound')
+  const music = localStorage.getItem('music')
+
   const [settings, setSettings] = useState({
-    sound: false,
-    music: true,
+    sound: sound === 'true',
+    music: music === 'true',
   })
+
+  useEffect(() => {
+    updateSettings(settings)
+
+    localStorage.setItem('sound', String(settings.sound))
+    localStorage.setItem('music', String(settings.music))
+  }, [settings.music, settings.sound])
 
   return (
     <div className={styles.content}>

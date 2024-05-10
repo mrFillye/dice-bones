@@ -2,6 +2,8 @@
 
 import { GameApiProvider } from '@sok/dice'
 import localFont from 'next/font/local'
+import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 
 import { GameFrame } from './GameFrame/GameFrame'
 import { SocketProvider } from './SocketProvider'
@@ -53,6 +55,27 @@ const molot = localFont({
 
 export default function Crash() {
   const adaptiveMode = useAdaptiveMode()
+
+  const { get } = useSearchParams()
+
+  const id = get('id')
+  const name = get('name')
+  const balance = get('balance')
+
+  const isLogin = localStorage.getItem('isLogin')
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', (test) => {
+      localStorage.removeItem('isLogin')
+    })
+  }, [])
+
+  useEffect(() => {
+    if (isLogin) return
+
+    redirect(`/login?id=${id}&balance=${balance}&name=${name}`)
+  }, [])
+
   return (
     <div className={`${molot.className} ${rfDewiExtended.className}`}>
       <GameApiProvider

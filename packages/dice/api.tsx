@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo } from 'react'
 
 import { fsm } from './stores/fsm'
 import { shaking } from './stores/shaking'
+import { settings } from './stores/ui/settings'
 import { waiting } from './stores/waiting'
 
 export type AdaptiveMode = 'mobile' | 'desktop'
@@ -49,4 +50,5 @@ export const shakeStores = {
   shaking: shaking,
   waiting: waiting,
   fsm: fsm,
+  settings: settings,
 }
