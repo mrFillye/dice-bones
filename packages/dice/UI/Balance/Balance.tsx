@@ -19,7 +19,7 @@ function animateValue(
   const step = (timestamp: number) => {
     if (!startTimestamp) startTimestamp = timestamp
     const progress = Math.min((timestamp - startTimestamp) / duration, 1)
-    currentBalance.innerHTML = Math.floor(progress * (end - start) + start)
+    currentBalance.innerHTML = (progress * (end - start) + start).toFixed(2)
     if (progress < 1) {
       window.requestAnimationFrame(step)
     }
