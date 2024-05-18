@@ -1,0 +1,7 @@
+.dice-online {
+  padding-top: 100px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0px;
+  }
+}
