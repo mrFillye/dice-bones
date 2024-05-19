@@ -2,7 +2,6 @@ import cx from 'classnames'
 import { observer } from 'mobx-react-lite'
 import { memo, useMemo, useState } from 'react'
 
-import { stores } from '../stores'
 import { fsm } from '../stores/fsm'
 import Balance from './Balance/Balance'
 import { ControlPanel } from './ControlPanel/ControlPanel'
@@ -16,6 +15,7 @@ import { ModalId, UIContext, UIProvider } from './context'
 export type UIProps = {
   className?: string
   onBet?: UIContext['onBet']
+  onCancelBet?: () => void
 }
 
 export const UI = observer(function UI(props: UIProps) {
@@ -50,6 +50,9 @@ export const UI = observer(function UI(props: UIProps) {
         {loaded && (
           <>
             <ControlPanel
+              onCancel={() => {
+                props?.onCancelBet && props?.onCancelBet()
+              }}
               className={cx(
                 styles.controlPanel,
                 currentState !== 'wait' && styles.controlPanel__disabled,

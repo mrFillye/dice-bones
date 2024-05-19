@@ -123,15 +123,22 @@ export const GameFrame = observer(function GameFrame() {
         case 'playing':
           stores.ui.gameStore.actions.setGame(event.result)
           if (event.results) {
-            const user = event.results.find((user) => user.id === id)
+            const user = event.results.find((user) => {
+              if (user) {
+                return user.id === id
+              }
+
+              return {}
+            })
 
             // @ts-ignore
             if (user?.balance) {
               // @ts-ignore
               setCurrentBalance(user?.balance)
             }
-
-            stores.ui.participants.actions.put(Object.values(event.results))
+            if (user) {
+              stores.ui.participants.actions.put(Object.values(event.results))
+            }
           }
 
           return shakeStores.fsm.actions.send({
@@ -183,11 +190,24 @@ export const GameFrame = observer(function GameFrame() {
       },
     )
 
-    socket.on(socketEvents.users.update, (data: PlayingUser[]) => {
-      logger.debug(socketEvents.users.update, JSON.stringify(data, null, 2))
-      stores.ui.participants.actions.put(data)
-      stores.ui.participants.actions.put(Object.values(data))
-    })
+    socket.on(
+      socketEvents.users.update,
+      (
+        data: PlayingUser[] & { id: string; action: string; balance: string }[],
+      ) => {
+        const user = data.find(({ id }) => id === currentUser?.id)
+
+        //@ts-ignore
+        if (user.action === 'cancel') {
+          //@ts-ignore
+          updateBalance(user.balance)
+        }
+
+        logger.debug(socketEvents.users.update, JSON.stringify(data, null, 2))
+        stores.ui.participants.actions.put(data as PlayingUser[])
+        stores.ui.participants.actions.put(Object.values(data))
+      },
+    )
 
     socket.on(
       socketEvents.history.update,
@@ -236,6 +256,9 @@ export const GameFrame = observer(function GameFrame() {
       <UI
         onBet={(data) => {
           socket?.emit(socketEvents.users.bet, data)
+        }}
+        onCancelBet={() => {
+          socket?.emit('users:cancel', currentUser)
         }}
       />
       <AudioPlayer

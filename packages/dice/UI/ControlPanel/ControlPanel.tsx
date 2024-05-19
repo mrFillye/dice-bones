@@ -13,15 +13,18 @@ import styles from './ControlPanel.module.scss'
 
 export type Props = {
   className?: string
+  onCancel?: () => void
 }
 
 export const ControlPanel = observer(function ControlPanel({
   className,
+  onCancel,
 }: Props) {
   const [currentBet, setCurrentBet] = useState<Half>()
   const [isSubmited, setIsSubmitted] = useState<boolean>(false)
 
   const { betAmount } = form.model.form
+
   const uiContext = useUIContext()
   const user = currentUser.model.user.get()
   const currentState = fsm.model.value.get()
@@ -29,6 +32,11 @@ export const ControlPanel = observer(function ControlPanel({
 
   const handleBet = (bet: Half) => {
     setCurrentBet(bet)
+  }
+
+  const handleCancelBet = () => {
+    setIsSubmitted((prev) => !prev)
+    onCancel && onCancel()
   }
 
   const handlePlaceBet = () => {
@@ -119,6 +127,9 @@ export const ControlPanel = observer(function ControlPanel({
       >
         <div className={styles.text}>PLAY</div>
       </Button>
+      {isSubmited && (
+        <div className={styles.button} onClick={handleCancelBet} />
+      )}
     </div>
   )
 })
